@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs cat)",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s --noproxy localhost http://localhost:4321/)",
+      "Bash(curl -s --noproxy localhost http://localhost:4321/living-room/best-throw-pillows-for-couch/)",
+      "Bash(curl -s --noproxy localhost http://localhost:4321/living-room/)",
+      "Bash(npx tsx *)",
+      "Bash(npx tsc *)",
+      "Bash(npx prisma *)",
+      "Bash(node -e ' *)",
+      "Bash(node --input-type=module)"
+    ]
+  }
+}

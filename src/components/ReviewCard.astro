@@ -1,0 +1,329 @@
+---
+import StarRating from './StarRating.astro';
+import type { Product } from '../lib/types';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+<article class="review-card" id={`product-${product.rank}`}>
+  <header class="review-header">
+    <div class="review-rank">#{product.rank}</div>
+    <div class="review-label">{product.label}</div>
+  </header>
+
+  <div class="review-body">
+    <div class="review-image-col">
+      <a href={product.affiliateUrl} target="_blank" rel="nofollow noopener" class="review-img-link">
+        <img
+          src={product.image}
+          alt={product.title}
+          loading="lazy"
+          decoding="async"
+          width="280"
+          height="280"
+        />
+      </a>
+    </div>
+
+    <div class="review-content">
+      <h3 class="review-product-title">{product.title}</h3>
+
+      <div class="review-meta-row">
+        <StarRating rating={product.rating} count={product.reviewCount} />
+        <span class="review-price">{product.price}</span>
+      </div>
+
+      {product.specs.length > 0 && (
+        <dl class="specs-strip">
+          {product.specs.map((s) => (
+            <>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </>
+          ))}
+        </dl>
+      )}
+
+      <a
+        href={product.affiliateUrl}
+        target="_blank"
+        rel="nofollow noopener"
+        class="btn btn-primary amazon-btn"
+      >
+        View on Amazon
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros">
+      <h4 class="pc-heading pros-heading">Pros</h4>
+      <ul role="list">
+        {product.pros.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+    <div class="cons">
+      <h4 class="pc-heading cons-heading">Cons</h4>
+      <ul role="list">
+        {product.cons.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  {product.review && (
+    <div class="review-text rich-text" set:html={product.review} />
+  )}
+
+  <div class="review-verdict">
+    <strong>The Verdict:</strong> {product.verdict}
+  </div>
+</article>
+
+<!-- JSON-LD for this product -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.title,
+  image: product.image,
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: product.rating,
+    reviewCount: product.reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  offers: {
+    '@type': 'Offer',
+    price: product.price.replace(/[^0-9.]/g, ''),
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    url: product.affiliateUrl,
+  },
+})} />
+
+<style>
+  .review-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  /* ── Header bar ── */
+  .review-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .review-rank {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.03em;
+  }
+
+  .review-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    background: rgba(45,74,62,0.08);
+    padding: 0.2em 0.7em;
+    border-radius: 2em;
+  }
+
+  /* ── Product main area ── */
+  .review-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.75rem;
+    padding: 1.5rem;
+    align-items: start;
+  }
+
+  .review-image-col {
+    position: sticky;
+    top: 80px;
+  }
+
+  .review-img-link {
+    display: block;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .review-img-link img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    padding: 0.5rem;
+    transition: transform 0.25s;
+  }
+
+  .review-img-link:hover img { transform: scale(1.04); }
+
+  .review-product-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .review-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  /* ── Specs strip ── */
+  .specs-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .specs-strip dt,
+  .specs-strip dd {
+    padding: 0.3em 0.65em;
+    background: var(--color-bg-subtle);
+  }
+
+  .specs-strip dt {
+    font-weight: 600;
+    color: var(--color-text-muted);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .specs-strip dd {
+    background: #fff;
+    color: var(--color-text);
+    margin-left: 0;
+  }
+
+  .specs-strip dt + dd + dt { border-left: 1px solid var(--color-border); }
+
+  .amazon-btn { margin-top: 0.25rem; }
+
+  /* ── Pros / Cons ── */
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pros, .cons {
+    padding: 1rem 1.5rem;
+  }
+
+  .pros { border-right: 1px solid var(--color-border); }
+
+  .pc-heading {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.6rem;
+  }
+
+  .pros-heading { color: var(--color-pro); }
+  .cons-heading { color: var(--color-con); }
+
+  .pros ul, .cons ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .pros li::before {
+    content: '✓ ';
+    color: var(--color-pro);
+    font-weight: 700;
+  }
+
+  .cons li::before {
+    content: '✗ ';
+    color: var(--color-con);
+    font-weight: 700;
+  }
+
+  .pros li, .cons li {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+
+  /* ── Review text ── */
+  .review-text {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.925rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text);
+    line-height: 1.75;
+  }
+
+  /* ── Verdict ── */
+  .review-verdict {
+    padding: 0.9rem 1.5rem;
+    background: var(--color-bg-subtle);
+    border-top: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    font-style: italic;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .review-verdict strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .review-body {
+      grid-template-columns: 1fr;
+    }
+
+    .review-image-col {
+      position: static;
+      max-width: 180px;
+    }
+
+    .pros-cons {
+      grid-template-columns: 1fr;
+    }
+
+    .pros { border-right: none; border-bottom: 1px solid var(--color-border); }
+  }
+</style>

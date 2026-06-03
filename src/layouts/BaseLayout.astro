@@ -1,0 +1,58 @@
+---
+import { siteConfig } from '../../site.config';
+import SEOHead from '../components/SEOHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  noindex?: boolean;
+}
+
+const { title, description, ogImage, canonicalUrl, noindex = false } = Astro.props;
+const { theme } = siteConfig;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEOHead
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      canonicalUrl={canonicalUrl}
+      noindex={noindex}
+    />
+    <!-- Inject niche theme colors as CSS custom properties -->
+    <style is:inline set:html={`
+      :root {
+        --color-primary:       ${theme.colorPrimary};
+        --color-primary-light: ${theme.colorPrimaryLight};
+        --color-accent:        ${theme.colorAccent};
+        --color-bg:            ${theme.colorBg};
+        --color-bg-subtle:     ${theme.colorBgSubtle};
+        --color-bg-dark:       ${theme.colorBgDark};
+        --color-text:          ${theme.colorText};
+        --color-text-muted:    ${theme.colorTextMuted};
+        --color-border:        ${theme.colorBorder};
+        --color-pro:           ${theme.colorPro};
+        --color-con:           ${theme.colorCon};
+        --color-star:          ${theme.colorStar};
+        --font-heading:        ${theme.fontHeading};
+        --font-body:           ${theme.fontBody};
+      }
+    `}></style>
+  </head>
+  <body>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

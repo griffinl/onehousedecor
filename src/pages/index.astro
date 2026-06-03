@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getAllArticles } from '../lib/content';
+import { siteConfig } from '../../site.config';
+
+const articles = getAllArticles();
+const featured = articles[0];
+const rest = articles.slice(1);
+---
+<BaseLayout title={siteConfig.name} description={siteConfig.description}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Home Decor Reviews</p>
+      <h1 class="hero-title">{siteConfig.tagline}</h1>
+      <p class="hero-sub">
+        Every recommendation is backed by real Amazon data, verified reviews,
+        and editorial analysis — so you can shop with confidence.
+      </p>
+      <nav class="category-pills" aria-label="Browse by category">
+        {siteConfig.categories.map((cat) => (
+          <a href={`/${cat.slug}/`} class="pill">{cat.label}</a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  {siteConfig.layout.home === 'hero' ? (
+    /* ── Hero layout: large featured + horizontal article cards ── */
+    <section class="container section-gap">
+      {featured && <ArticleCard article={featured} featured />}
+      {rest.length > 0 && (
+        <div class="hero-list">
+          {rest.map((article) => (
+            <ArticleCard article={article} horizontal />
+          ))}
+        </div>
+      )}
+    </section>
+  ) : (
+    /* ── Grid layout (default): editor pick + card grid ── */
+    <>
+      {featured && (
+        <section class="container section-gap">
+          <h2 class="section-label">Editor's Pick</h2>
+          <ArticleCard article={featured} featured />
+        </section>
+      )}
+      {rest.length > 0 && (
+        <section class="container section-gap">
+          <h2 class="section-label">Latest Reviews</h2>
+          <div class="articles-grid">
+            {rest.map((article) => (
+              <ArticleCard article={article} />
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  )}
+
+  <!-- Trust bar -->
+  <section class="trust-bar">
+    <div class="container">
+      <ul role="list" class="trust-list">
+        <li>
+          <span class="trust-icon" aria-hidden="true">✓</span>
+          <span>Data-driven recommendations</span>
+        </li>
+        <li>
+          <span class="trust-icon" aria-hidden="true">✓</span>
+          <span>Thousands of reviews analyzed</span>
+        </li>
+        <li>
+          <span class="trust-icon" aria-hidden="true">✓</span>
+          <span>Updated regularly</span>
+        </li>
+        <li>
+          <span class="trust-icon" aria-hidden="true">✓</span>
+          <span>No sponsored rankings</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    background: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border);
+    padding: 4rem 0 3rem;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.775rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 520px;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 0.45em 1.1em;
+    border: 1.5px solid var(--color-border);
+    border-radius: 2em;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background: #fff;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+
+  .pill:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* ── Content sections ── */
+  .section-gap {
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+  }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* ── Trust bar ── */
+  .trust-bar {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 1.25rem 0;
+    margin-top: 4rem;
+  }
+
+  .trust-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    justify-content: center;
+  }
+
+  .trust-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .trust-icon {
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+  }
+
+  /* Hero layout: vertical stack of horizontal cards */
+  .hero-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .articles-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .articles-grid { grid-template-columns: 1fr; }
+    .hero { padding: 2.5rem 0 2rem; }
+  }
+</style>

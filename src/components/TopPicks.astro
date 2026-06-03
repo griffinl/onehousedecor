@@ -1,0 +1,149 @@
+---
+import type { Product } from '../lib/types';
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+const top = products.slice(0, Math.min(products.length, 5));
+---
+<aside class="top-picks" aria-label="Quick picks">
+  <h2 class="top-picks-heading">
+    <span class="icon" aria-hidden="true">◉</span>
+    Our Top Picks
+  </h2>
+  <ol class="picks-list" role="list">
+    {top.map((p) => (
+      <li class="pick-item">
+        <a href={`#product-${p.rank}`} class="pick-link">
+          <span class="pick-rank">{p.rank}</span>
+          <img src={p.image} alt={p.title} width="56" height="56" loading="lazy" />
+          <div class="pick-info">
+            <span class="pick-label">{p.label}</span>
+            <span class="pick-title">{p.title}</span>
+            <span class="pick-price">{p.price}</span>
+          </div>
+        </a>
+        <a
+          href={p.affiliateUrl}
+          target="_blank"
+          rel="nofollow noopener"
+          class="pick-buy btn btn-primary"
+          aria-label={`Buy ${p.title} on Amazon`}
+        >
+          Buy
+        </a>
+      </li>
+    ))}
+  </ol>
+</aside>
+
+<style>
+  .top-picks {
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: #fff;
+  }
+
+  .top-picks-heading {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .icon { font-size: 0.9rem; }
+
+  .picks-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pick-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-md);
+    transition: background 0.15s;
+  }
+
+  .pick-item:hover { background: var(--color-bg-subtle); }
+
+  .pick-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    text-decoration: none !important;
+    min-width: 0;
+  }
+
+  .pick-rank {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    min-width: 1.2em;
+    text-align: center;
+  }
+
+  .pick-link img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    flex-shrink: 0;
+  }
+
+  .pick-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .pick-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+  }
+
+  .pick-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pick-price {
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .pick-buy {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    padding: 0.4em 0.9em;
+  }
+
+  @media (max-width: 480px) {
+    .pick-link img { display: none; }
+  }
+</style>

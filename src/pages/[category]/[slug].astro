@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import TopPicks from '../../components/TopPicks.astro';
+import ReviewCardDefault from '../../components/ReviewCard.astro';
+import ReviewCardWirecutter from '../../components/ReviewCardWirecutter.astro';
+import BuyingGuide from '../../components/BuyingGuide.astro';
+import FAQ from '../../components/FAQ.astro';
+import { getAllArticles, getArticle, formatDate } from '../../lib/content';
+import { siteConfig } from '../../../site.config';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return getAllArticles().map((article) => ({
+    params: { category: article.category, slug: article.slug },
+    props: { article },
+  }));
+};
+
+const { article } = Astro.props;
+
+const ReviewCard = siteConfig.layout.article === 'wirecutter'
+  ? ReviewCardWirecutter
+  : ReviewCardDefault;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? `https://${siteConfig.domain}`;
+const articleUrl = `${siteUrl}/${article.category}/${article.slug}/`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.metaDescription ?? article.excerpt,
+  datePublished: article.publishedAt,
+  dateModified: article.updatedAt,
+  author: { '@type': 'Organization', name: siteConfig.name, url: siteUrl },
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    url: siteUrl,
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.svg` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+  ...(article.featuredImage ? { image: article.featuredImage } : {}),
+};
+---
+<BaseLayout
+  title={article.title}
+  description={article.metaDescription ?? article.excerpt}
+  ogImage={article.featuredImage}
+  canonicalUrl={articleUrl}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <!-- Hero image -->
+  {article.featuredImage && (
+    <div class="article-hero">
+      <img
+        src={article.featuredImage}
+        alt={article.title}
+        width="1200"
+        height="630"
+        loading="eager"
+        decoding="async"
+        class="hero-img"
+      />
+    </div>
+  )}
+
+  <div class="container article-container">
+    <Breadcrumb crumbs={[
+      { label: article.categoryLabel, href: `/${article.category}/` },
+      { label: article.title },
+    ]} />
+
+    <header class="article-header">
+      <a href={`/${article.category}/`} class="badge category-badge">
+        {article.categoryLabel}
+      </a>
+      <h1 class="article-title">{article.title}</h1>
+      <div class="article-meta">
+        <span>
+          By <strong>{article.author}</strong>
+        </span>
+        <span aria-hidden="true">·</span>
+        <span>Published {formatDate(article.publishedAt)}</span>
+        {article.updatedAt !== article.publishedAt && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Updated {formatDate(article.updatedAt)}</span>
+          </>
+        )}
+      </div>
+      <p class="article-excerpt">{article.excerpt}</p>
+    </header>
+
+    <div class="article-layout">
+      <div class="article-main">
+        <!-- Top Picks box -->
+        <TopPicks products={article.products} />
+
+        <!-- Introduction -->
+        <div class="article-intro rich-text" set:html={article.intro} />
+
+        <!-- Review cards -->
+        <section aria-label="Product reviews">
+          {article.products.map((product) => (
+            <ReviewCard product={product} />
+          ))}
+        </section>
+
+        <!-- Buying guide -->
+        {article.buyingGuide && article.buyingGuide.length > 0 && (
+          <BuyingGuide sections={article.buyingGuide} />
+        )}
+
+        <!-- FAQ -->
+        {article.faq && article.faq.length > 0 && (
+          <FAQ items={article.faq} />
+        )}
+
+        <!-- Affiliate disclosure -->
+        <aside class="affiliate-note" aria-label="Affiliate disclosure">
+          <strong>Disclosure:</strong> This page contains affiliate links. We may earn a commission
+          if you purchase through our links — at no extra cost to you. Our editorial opinions are
+          independent and not influenced by affiliate partnerships.
+          <a href="/disclaimer/">Learn more.</a>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .article-hero {
+    width: 100%;
+    max-height: 480px;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Layout ── */
+  .article-container {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+
+  .article-layout {
+    max-width: 800px;
+  }
+
+  /* ── Header ── */
+  .article-header {
+    padding: 1.25rem 0 2rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0;
+  }
+
+  .category-badge {
+    margin-bottom: 0.75rem;
+    text-decoration: none !important;
+  }
+
+  .article-title {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .article-meta strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .article-excerpt {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 680px;
+  }
+
+  /* ── Body ── */
+  .article-intro {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 1.75rem 0;
+  }
+
+  /* ── Affiliate note ── */
+  .affiliate-note {
+    margin-top: 3rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .affiliate-note strong {
+    color: var(--color-text);
+  }
+
+  .affiliate-note a {
+    color: var(--color-primary);
+  }
+</style>
