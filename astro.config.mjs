@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const SITE_URL = process.env.SITE_URL ?? 'https://onehousedecor.com';
+const SITE_URL = process.env.SITE_URL ?? 'https://www.onehousedecor.com';
 
 export default defineConfig({
   site: SITE_URL,

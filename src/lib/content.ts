@@ -30,3 +30,16 @@ export function formatDate(iso: string): string {
     day: 'numeric',
   });
 }
+
+/**
+ * Display headline with an accurate count prefix derived from the real number of
+ * products, e.g. "Best Magazine Racks of 2026" → "13 Best Magazine Racks of 2026".
+ * AI titles are stored number-free; the count always matches what's actually listed.
+ * Leaves already-numbered titles untouched.
+ */
+export function articleHeadline(article: Article): string {
+  const title = article.title.trim();
+  const n = article.products.length;
+  if (n < 2 || /^\d/.test(title)) return title;
+  return `${n} ${title}`;
+}

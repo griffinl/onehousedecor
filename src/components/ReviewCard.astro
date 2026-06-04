@@ -7,13 +7,21 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const badgeText = product.badge ?? product.bestFor ?? null;
+
+const rankBadge = (rank: number) => {
+  const defaults: Record<number, string> = {
+    1: 'Best Overall', 2: 'Runner Up', 3: 'Best Value',
+  };
+  return defaults[rank] ?? 'Also Great';
+};
+// Badge is the keyword-rich section heading (H2); always present.
+const badgeText = product.badge ?? product.bestFor ?? rankBadge(product.rank);
 ---
 <article class="review-card" id={`product-${product.rank}`}>
 
   <header class="review-header">
     <span class="review-rank">#{product.rank}</span>
-    {badgeText && <span class="review-badge">{badgeText}</span>}
+    <h2 class="review-badge">{badgeText}</h2>
   </header>
 
   <div class="review-body">
@@ -126,8 +134,10 @@ const badgeText = product.badge ?? product.bestFor ?? null;
   }
 
   .review-badge {
+    font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 600;
+    line-height: 1.4;
     color: var(--color-primary);
     background: rgba(45,74,62,0.08);
     padding: 0.2em 0.65em;

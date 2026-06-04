@@ -1,5 +1,5 @@
 ---
-import { formatDate } from '../lib/content';
+import { formatDate, articleHeadline } from '../lib/content';
 import type { Article } from '../lib/types';
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 const { article, featured = false, horizontal = false } = Astro.props;
 const url = `/${article.category}/${article.slug}/`;
+const headline = articleHeadline(article);
 ---
 <article class:list={['article-card', { featured, horizontal }]}>
   <div class="card-body">
@@ -18,7 +19,7 @@ const url = `/${article.category}/${article.slug}/`;
     </a>
 
     <h2 class="card-title">
-      <a href={url}>{article.title}</a>
+      <a href={url}>{headline}</a>
     </h2>
 
     <p class="card-excerpt">{article.excerpt}</p>
