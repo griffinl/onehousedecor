@@ -1,8 +1,8 @@
 {
   "slug": "best-area-rugs-for-living-room",
   "title": "5 Best Area Rugs for Living Room of 2026",
-  "category": "living-room",
-  "categoryLabel": "Living Room",
+  "category": "rugs",
+  "categoryLabel": "Rugs",
   "publishedAt": "2026-04-22",
   "updatedAt": "2026-05-28",
   "excerpt": "A well-chosen area rug can anchor your entire living room. We tested the top-rated options on Amazon — from budget-friendly washable rugs to investment-worthy wool — to find which ones are actually worth buying.",
@@ -22,10 +22,22 @@
       "price": "$69.00",
       "affiliateUrl": "https://www.amazon.com/dp/B08YN2K7MQ?tag=onehousedecor-20",
       "specs": [
-        { "label": "Material", "value": "Polypropylene" },
-        { "label": "Pile Height", "value": "0.19\"" },
-        { "label": "Style", "value": "Moroccan lattice" },
-        { "label": "Sizes", "value": "4×6 to 12×15" }
+        {
+          "label": "Material",
+          "value": "Polypropylene"
+        },
+        {
+          "label": "Pile Height",
+          "value": "0.19\""
+        },
+        {
+          "label": "Style",
+          "value": "Moroccan lattice"
+        },
+        {
+          "label": "Sizes",
+          "value": "4×6 to 12×15"
+        }
       ],
       "pros": [
         "Classic pattern that works in traditional and modern rooms",
@@ -51,10 +63,22 @@
       "price": "$189.00",
       "affiliateUrl": "https://www.amazon.com/dp/B09SLMRQZP?tag=onehousedecor-20",
       "specs": [
-        { "label": "System", "value": "2-piece (pad + cover)" },
-        { "label": "Washable", "value": "Machine wash, up to 5×7" },
-        { "label": "Pile", "value": "Flat weave" },
-        { "label": "Backing", "value": "Non-slip pad" }
+        {
+          "label": "System",
+          "value": "2-piece (pad + cover)"
+        },
+        {
+          "label": "Washable",
+          "value": "Machine wash, up to 5×7"
+        },
+        {
+          "label": "Pile",
+          "value": "Flat weave"
+        },
+        {
+          "label": "Backing",
+          "value": "Non-slip pad"
+        }
       ],
       "pros": [
         "The cover goes directly in the washing machine",
@@ -81,10 +105,22 @@
       "price": "$32.00",
       "affiliateUrl": "https://www.amazon.com/dp/B00I6QLZXM?tag=onehousedecor-20",
       "specs": [
-        { "label": "Material", "value": "Polypropylene" },
-        { "label": "Pile Height", "value": "0.25\"" },
-        { "label": "Style", "value": "Abstract / boho" },
-        { "label": "Sizes", "value": "3×5 to 9×12" }
+        {
+          "label": "Material",
+          "value": "Polypropylene"
+        },
+        {
+          "label": "Pile Height",
+          "value": "0.25\""
+        },
+        {
+          "label": "Style",
+          "value": "Abstract / boho"
+        },
+        {
+          "label": "Sizes",
+          "value": "3×5 to 9×12"
+        }
       ],
       "pros": [
         "Under $40 for a 5×8 — hard to beat",

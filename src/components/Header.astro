@@ -2,11 +2,18 @@
 import { siteConfig } from '../../site.config';
 
 const currentPath = Astro.url.pathname;
+
+// Monogram initials from site name (matches favicon), max 2 letters
+const initials = siteConfig.name
+  .split(/\s+/)
+  .slice(0, 2)
+  .map((w) => w[0]?.toUpperCase() ?? '')
+  .join('');
 ---
 <header class="site-header">
   <div class="header-inner container">
     <a href="/" class="logo" aria-label={siteConfig.name}>
-      <span class="logo-icon" aria-hidden="true">⌂</span>
+      <span class="logo-badge" aria-hidden="true">{initials}</span>
       <span class="logo-text">{siteConfig.name}</span>
     </a>
 
@@ -84,9 +91,20 @@ const currentPath = Astro.url.pathname;
     flex-shrink: 0;
   }
 
-  .logo-icon {
-    font-size: 1.4rem;
-    color: var(--color-primary);
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
   }
 
   .logo-text {

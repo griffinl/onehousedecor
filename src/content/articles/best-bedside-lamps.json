@@ -1,8 +1,8 @@
 {
   "slug": "best-bedside-lamps",
   "title": "6 Best Bedside Lamps of 2026: Tested for Light Quality & Style",
-  "category": "bedroom",
-  "categoryLabel": "Bedroom",
+  "category": "lighting",
+  "categoryLabel": "Lighting",
   "publishedAt": "2026-05-20",
   "updatedAt": "2026-06-01",
   "excerpt": "The right bedside lamp needs to do a lot: produce warm, readable light without being harsh, fit your nightstand, and look good while doing it. We tested the most-reviewed options to find which ones actually deliver.",
@@ -22,10 +22,22 @@
       "price": "$34.99",
       "affiliateUrl": "https://www.amazon.com/dp/B081DWMT67?tag=onehousedecor-20",
       "specs": [
-        { "label": "Bulb", "value": "LED (included)" },
-        { "label": "Color Temp", "value": "2700K warm white" },
-        { "label": "USB Port", "value": "Built-in USB-A charging" },
-        { "label": "Switch", "value": "On-shade touch dimmer" }
+        {
+          "label": "Bulb",
+          "value": "LED (included)"
+        },
+        {
+          "label": "Color Temp",
+          "value": "2700K warm white"
+        },
+        {
+          "label": "USB Port",
+          "value": "Built-in USB-A charging"
+        },
+        {
+          "label": "Switch",
+          "value": "On-shade touch dimmer"
+        }
       ],
       "pros": [
         "Touch dimmer with 3 brightness levels",
@@ -51,10 +63,22 @@
       "price": "$28.99",
       "affiliateUrl": "https://www.amazon.com/dp/B07GJKD9LD?tag=onehousedecor-20",
       "specs": [
-        { "label": "Material", "value": "Metal + fabric shade" },
-        { "label": "Height", "value": "Adjustable 15\"–17\"" },
-        { "label": "Bulb", "value": "E26 base (not included)" },
-        { "label": "Switch", "value": "In-line cord switch" }
+        {
+          "label": "Material",
+          "value": "Metal + fabric shade"
+        },
+        {
+          "label": "Height",
+          "value": "Adjustable 15\"–17\""
+        },
+        {
+          "label": "Bulb",
+          "value": "E26 base (not included)"
+        },
+        {
+          "label": "Switch",
+          "value": "In-line cord switch"
+        }
       ],
       "pros": [
         "Clean industrial-modern aesthetic",

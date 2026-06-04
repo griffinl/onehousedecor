@@ -15,12 +15,11 @@ const rest = articles.slice(1);
       <p class="hero-eyebrow">Home Decor Reviews</p>
       <h1 class="hero-title">{siteConfig.tagline}</h1>
       <p class="hero-sub">
-        Every recommendation is backed by real Amazon data, verified reviews,
-        and editorial analysis — so you can shop with confidence.
+        In-depth research and honest reviews to help you find the right pieces for your home — without the guesswork.
       </p>
       <nav class="category-pills" aria-label="Browse by category">
-        {siteConfig.categories.map((cat) => (
-          <a href={`/${cat.slug}/`} class="pill">{cat.label}</a>
+        {siteConfig.nav.map((item) => (
+          <a href={item.href} class="pill">{item.label}</a>
         ))}
       </nav>
     </div>
@@ -88,10 +87,22 @@ const rest = articles.slice(1);
 <style>
   /* ── Hero ── */
   .hero {
-    background: var(--color-bg-subtle);
+    position: relative;
+    background: url('/hero-bg.webp') center center / cover no-repeat;
     border-bottom: 1px solid var(--color-border);
     padding: 4rem 0 3rem;
     text-align: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(250, 250, 248, 0.82);
+  }
+
+  .hero .container {
+    position: relative;
   }
 
   .hero-eyebrow {

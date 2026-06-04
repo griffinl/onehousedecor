@@ -1,8 +1,8 @@
 {
   "slug": "best-throw-pillows-for-couch",
   "title": "7 Best Throw Pillows for Couch of 2026, Tested & Reviewed",
-  "category": "living-room",
-  "categoryLabel": "Living Room",
+  "category": "home-decor",
+  "categoryLabel": "Home Decor",
   "publishedAt": "2026-05-10",
   "updatedAt": "2026-06-03",
   "excerpt": "We analyzed over 3,000 Amazon reviews across 40+ throw pillow sets to find the ones that actually hold their shape, feel luxurious, and look great on any couch.",
@@ -22,10 +22,22 @@
       "price": "$26.99",
       "affiliateUrl": "https://www.amazon.com/dp/B09MKXR4PW?tag=onehousedecor-20",
       "specs": [
-        { "label": "Fill", "value": "Down Alternative" },
-        { "label": "Cover", "value": "100% Cotton" },
-        { "label": "Sizes", "value": "14\" – 26\" square" },
-        { "label": "Pack", "value": "Set of 2" }
+        {
+          "label": "Fill",
+          "value": "Down Alternative"
+        },
+        {
+          "label": "Cover",
+          "value": "100% Cotton"
+        },
+        {
+          "label": "Sizes",
+          "value": "14\" – 26\" square"
+        },
+        {
+          "label": "Pack",
+          "value": "Set of 2"
+        }
       ],
       "pros": [
         "Stays fluffy after months of daily use",
@@ -51,10 +63,22 @@
       "price": "$13.99",
       "affiliateUrl": "https://www.amazon.com/dp/B08BZY3M2R?tag=onehousedecor-20",
       "specs": [
-        { "label": "Material", "value": "Faux Velvet" },
-        { "label": "Closure", "value": "Hidden zipper" },
-        { "label": "Size", "value": "18×18\" or 20×20\"" },
-        { "label": "Colors", "value": "30+ options" }
+        {
+          "label": "Material",
+          "value": "Faux Velvet"
+        },
+        {
+          "label": "Closure",
+          "value": "Hidden zipper"
+        },
+        {
+          "label": "Size",
+          "value": "18×18\" or 20×20\""
+        },
+        {
+          "label": "Colors",
+          "value": "30+ options"
+        }
       ],
       "pros": [
         "Exceptionally soft velvet texture",
@@ -80,10 +104,22 @@
       "price": "$35.99",
       "affiliateUrl": "https://www.amazon.com/dp/B07C4M6PT3?tag=onehousedecor-20",
       "specs": [
-        { "label": "Material", "value": "Cotton Linen Blend" },
-        { "label": "Design", "value": "Woven geometric" },
-        { "label": "Size", "value": "18×18\"" },
-        { "label": "Pack", "value": "Set of 4" }
+        {
+          "label": "Material",
+          "value": "Cotton Linen Blend"
+        },
+        {
+          "label": "Design",
+          "value": "Woven geometric"
+        },
+        {
+          "label": "Size",
+          "value": "18×18\""
+        },
+        {
+          "label": "Pack",
+          "value": "Set of 4"
+        }
       ],
       "pros": [
         "4-pack gives you a full coordinated sofa look",

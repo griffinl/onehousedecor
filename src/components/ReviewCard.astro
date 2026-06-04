@@ -7,58 +7,49 @@ interface Props {
 }
 
 const { product } = Astro.props;
+const badgeText = product.badge ?? product.bestFor ?? null;
 ---
 <article class="review-card" id={`product-${product.rank}`}>
+
   <header class="review-header">
-    <div class="review-rank">#{product.rank}</div>
-    <div class="review-label">{product.label}</div>
+    <span class="review-rank">#{product.rank}</span>
+    {badgeText && <span class="review-badge">{badgeText}</span>}
   </header>
 
   <div class="review-body">
-    <div class="review-image-col">
-      <a href={product.affiliateUrl} target="_blank" rel="nofollow noopener" class="review-img-link">
-        <img
-          src={product.image}
-          alt={product.title}
-          loading="lazy"
-          decoding="async"
-          width="280"
-          height="280"
-        />
-      </a>
-    </div>
+    <a href={product.affiliateUrl} target="_blank" rel="nofollow noopener" class="review-img-link">
+      <img
+        src={product.image}
+        alt={product.label}
+        loading="lazy"
+        decoding="async"
+        width="260"
+        height="260"
+      />
+    </a>
 
     <div class="review-content">
-      <h3 class="review-product-title">{product.title}</h3>
+      <h3 class="review-product-title">
+        <a href={product.affiliateUrl} target="_blank" rel="nofollow noopener">{product.label}</a>
+      </h3>
 
-      <div class="review-meta-row">
-        <StarRating rating={product.rating} count={product.reviewCount} />
-        <span class="review-price">{product.price}</span>
-      </div>
+      <StarRating rating={product.rating} />
 
       {product.specs.length > 0 && (
-        <dl class="specs-strip">
+        <ul class="specs-list" role="list">
           {product.specs.map((s) => (
-            <>
-              <dt>{s.label}</dt>
-              <dd>{s.value}</dd>
-            </>
+            <li><strong>{s.label}</strong>: {s.value}</li>
           ))}
-        </dl>
+        </ul>
       )}
 
       <a
         href={product.affiliateUrl}
         target="_blank"
         rel="nofollow noopener"
-        class="btn btn-primary amazon-btn"
+        class="btn btn-primary check-price-btn"
       >
-        View on Amazon
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-          <polyline points="15 3 21 3 21 9"/>
-          <line x1="10" y1="14" x2="21" y2="3"/>
-        </svg>
+        Check Price
       </a>
     </div>
   </div>
@@ -83,11 +74,11 @@ const { product } = Astro.props;
   )}
 
   <div class="review-verdict">
-    <strong>The Verdict:</strong> {product.verdict}
+    <strong>Bottom Line:</strong> {product.verdict}
   </div>
+
 </article>
 
-<!-- JSON-LD for this product -->
 <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -118,126 +109,117 @@ const { product } = Astro.props;
     margin-bottom: 2rem;
   }
 
-  /* ── Header bar ── */
+  /* ── Header ── */
   .review-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
+    gap: 0.6rem;
+    padding: 0.6rem 1.5rem;
     background: var(--color-bg-subtle);
     border-bottom: 1px solid var(--color-border);
   }
 
   .review-rank {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    letter-spacing: 0.03em;
-  }
-
-  .review-label {
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  .review-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--color-primary);
     background: rgba(45,74,62,0.08);
-    padding: 0.2em 0.7em;
+    padding: 0.2em 0.65em;
     border-radius: 2em;
   }
 
-  /* ── Product main area ── */
+  /* ── Body ── */
   .review-body {
     display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 1.75rem;
-    padding: 1.5rem;
-    align-items: start;
-  }
-
-  .review-image-col {
-    position: sticky;
-    top: 80px;
+    grid-template-columns: 38% 62%;
+    align-items: center;
+    padding: 1.75rem 2rem;
+    gap: 2rem;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .review-img-link {
     display: block;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-bg-subtle);
   }
 
   .review-img-link img {
+    display: block;
     width: 100%;
-    aspect-ratio: 1;
+    max-height: 240px;
+    height: auto;
     object-fit: contain;
-    padding: 0.5rem;
-    transition: transform 0.25s;
   }
 
-  .review-img-link:hover img { transform: scale(1.04); }
+  .review-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
 
   .review-product-title {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.3;
-    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    margin: 0;
   }
 
-  .review-meta-row {
+  .review-product-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .review-product-title a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  /* ── Specs ── */
+  .specs-list {
+    list-style: none;
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
-  .review-price {
-    font-size: 1.1rem;
-    font-weight: 700;
+  .specs-list li {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    padding-left: 1.1em;
+    position: relative;
+    color: var(--color-text);
+  }
+
+  .specs-list li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    font-size: 0.5em;
     color: var(--color-accent);
   }
 
-  /* ── Specs strip ── */
-  .specs-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-
-  .specs-strip dt,
-  .specs-strip dd {
-    padding: 0.3em 0.65em;
-    background: var(--color-bg-subtle);
-  }
-
-  .specs-strip dt {
+  .specs-list li strong {
     font-weight: 600;
-    color: var(--color-text-muted);
-    border-right: 1px solid var(--color-border);
   }
 
-  .specs-strip dd {
-    background: #fff;
-    color: var(--color-text);
-    margin-left: 0;
+  /* ── CTA ── */
+  .check-price-btn {
+    font-size: 0.9rem;
+    padding: 0.65em 2em;
+    align-self: flex-start;
   }
-
-  .specs-strip dt + dd + dt { border-left: 1px solid var(--color-border); }
-
-  .amazon-btn { margin-top: 0.25rem; }
 
   /* ── Pros / Cons ── */
   .pros-cons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--color-border);
   }
 
   .pros, .cons {
@@ -248,10 +230,10 @@ const { product } = Astro.props;
 
   .pc-heading {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.08em;
     margin-bottom: 0.6rem;
   }
 
@@ -262,25 +244,30 @@ const { product } = Astro.props;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.4rem;
+  }
+
+  .pros li, .cons li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding-left: 1.2em;
+    position: relative;
   }
 
   .pros li::before {
-    content: '✓ ';
+    content: '✓';
+    position: absolute;
+    left: 0;
     color: var(--color-pro);
     font-weight: 700;
   }
 
   .cons li::before {
-    content: '✗ ';
+    content: '✗';
+    position: absolute;
+    left: 0;
     color: var(--color-con);
     font-weight: 700;
-  }
-
-  .pros li, .cons li {
-    font-size: 0.875rem;
-    color: var(--color-text);
-    line-height: 1.5;
   }
 
   /* ── Review text ── */
@@ -288,42 +275,34 @@ const { product } = Astro.props;
     padding: 1.25rem 1.5rem;
     font-size: 0.925rem;
     border-top: 1px solid var(--color-border);
-    color: var(--color-text);
     line-height: 1.75;
   }
 
   /* ── Verdict ── */
   .review-verdict {
-    padding: 0.9rem 1.5rem;
+    padding: 0.875rem 1.5rem;
     background: var(--color-bg-subtle);
     border-top: 1px solid var(--color-border);
     font-size: 0.875rem;
-    color: var(--color-text);
-    font-style: italic;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
   .review-verdict strong {
-    font-style: normal;
     font-weight: 700;
     color: var(--color-primary);
   }
 
   /* ── Responsive ── */
-  @media (max-width: 640px) {
+  @media (max-width: 680px) {
     .review-body {
       grid-template-columns: 1fr;
+      padding: 1.25rem;
     }
-
-    .review-image-col {
-      position: static;
-      max-width: 180px;
+    .review-img-link {
+      max-width: 200px;
+      margin: 0 auto;
     }
-
-    .pros-cons {
-      grid-template-columns: 1fr;
-    }
-
+    .pros-cons { grid-template-columns: 1fr; }
     .pros { border-right: none; border-bottom: 1px solid var(--color-border); }
   }
 </style>

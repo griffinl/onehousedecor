@@ -53,25 +53,9 @@ const articleSchema = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
-  <!-- Hero image -->
-  {article.featuredImage && (
-    <div class="article-hero">
-      <img
-        src={article.featuredImage}
-        alt={article.title}
-        width="1200"
-        height="630"
-        loading="eager"
-        decoding="async"
-        class="hero-img"
-      />
-    </div>
-  )}
-
   <div class="container article-container">
     <Breadcrumb crumbs={[
       { label: article.categoryLabel, href: `/${article.category}/` },
-      { label: article.title },
     ]} />
 
     <header class="article-header">
@@ -84,13 +68,7 @@ const articleSchema = {
           By <strong>{article.author}</strong>
         </span>
         <span aria-hidden="true">·</span>
-        <span>Published {formatDate(article.publishedAt)}</span>
-        {article.updatedAt !== article.publishedAt && (
-          <>
-            <span aria-hidden="true">·</span>
-            <span>Updated {formatDate(article.updatedAt)}</span>
-          </>
-        )}
+        <span>Updated {formatDate(article.updatedAt)}</span>
       </div>
       <p class="article-excerpt">{article.excerpt}</p>
     </header>

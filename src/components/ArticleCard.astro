@@ -12,19 +12,6 @@ const { article, featured = false, horizontal = false } = Astro.props;
 const url = `/${article.category}/${article.slug}/`;
 ---
 <article class:list={['article-card', { featured, horizontal }]}>
-  {article.featuredImage && (
-    <a href={url} class="card-img-wrap" tabindex="-1" aria-hidden="true">
-      <img
-        src={article.featuredImage}
-        alt={article.title}
-        loading="lazy"
-        decoding="async"
-        width="800"
-        height="450"
-      />
-    </a>
-  )}
-
   <div class="card-body">
     <a href={`/${article.category}/`} class="card-category badge">
       {article.categoryLabel}
@@ -39,7 +26,7 @@ const url = `/${article.category}/${article.slug}/`;
     <div class="card-meta">
       <span>{formatDate(article.updatedAt)}</span>
       <span aria-hidden="true">·</span>
-      <span>{article.products.length} products reviewed</span>
+      <span>{article.products.length} picks</span>
     </div>
   </div>
 </article>
@@ -65,12 +52,16 @@ const url = `/${article.category}/${article.slug}/`;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: var(--color-bg-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .card-img-wrap img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    padding: 0.5rem;
     transition: transform 0.3s;
   }
 

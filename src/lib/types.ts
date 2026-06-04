@@ -6,8 +6,13 @@ export interface ProductSpec {
 export interface Product {
   rank: number;
   asin: string;
-  title: string;
-  label: string;        // e.g. "Best Overall", "Best Value"
+  title: string;        // full Amazon title
+  label: string;        // short product name
+  badge?: string;       // quick_picks label e.g. "Best Multi-Pocket Organizer"
+  oneLiner?: string;    // quick_picks one_liner — one-sentence pitch
+  tier?: string;        // top_pick | runner_up | also_consider
+  bestFor?: string;     // comparison_table best_for
+  usageNote?: string;   // usage tip / note
   image: string;
   rating: number;       // 1–5
   reviewCount: number;
@@ -16,7 +21,7 @@ export interface Product {
   specs: ProductSpec[];
   pros: string[];
   cons: string[];
-  verdict: string;      // One-sentence bottom line
+  verdict: string;      // one-sentence bottom line
   review: string;       // HTML prose for the review body
 }
 
