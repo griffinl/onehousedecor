@@ -6,7 +6,8 @@ import ReviewCardDefault from '../../components/ReviewCard.astro';
 import ReviewCardWirecutter from '../../components/ReviewCardWirecutter.astro';
 import BuyingGuide from '../../components/BuyingGuide.astro';
 import FAQ from '../../components/FAQ.astro';
-import { getAllArticles, getArticle, formatDate, articleHeadline } from '../../lib/content';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import { getAllArticles, getArticle, formatDate, articleHeadline, getRelatedArticles } from '../../lib/content';
 import { siteConfig } from '../../../site.config';
 import type { GetStaticPaths } from 'astro';
 
@@ -28,6 +29,9 @@ const articleUrl = `${siteUrl}/${article.category}/${article.slug}/`;
 
 // Display headline with accurate count prefix (e.g. "13 Best Magazine Racks of 2026").
 const headline = articleHeadline(article);
+
+// Internal linking: related articles for the bottom of the page.
+const related = getRelatedArticles(article, 3);
 
 // SEO title: keep the full engaging headline for the H1, but drop the descriptive
 // suffix (after : , – —) for the <title> tag when it + brand would exceed ~60 chars,
@@ -117,6 +121,9 @@ const articleSchema = {
           independent and not influenced by affiliate partnerships.
           <a href="/disclaimer/">Learn more.</a>
         </aside>
+
+        <!-- Related posts (internal linking) -->
+        <RelatedPosts articles={related} />
       </div>
     </div>
   </div>
