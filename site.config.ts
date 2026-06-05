@@ -65,6 +65,12 @@ export const siteConfig = {
     pinterest: "https://pinterest.com/onehousedecor",
   },
 
+  // Analytics (self-hosted Umami). Leave blank to disable — nothing loads.
+  analytics: {
+    umamiSrc: "",        // e.g. "https://analytics.example.com/script.js"
+    umamiWebsiteId: "",  // this site's Umami website ID (UUID)
+  },
+
   pages: {
     about: {
       headline: "We Help You Create a Home You Love",
