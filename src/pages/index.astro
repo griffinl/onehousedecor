@@ -6,7 +6,9 @@ import { siteConfig } from '../../site.config';
 
 const articles = getAllArticles();
 const featured = articles[0];
-const rest = articles.slice(1);
+// Homepage shows only the latest few; categories hold the full archive.
+const LATEST_COUNT = 12;
+const rest = articles.slice(1, 1 + LATEST_COUNT);
 ---
 <BaseLayout title={siteConfig.name} description={siteConfig.description}>
   <!-- Hero -->
