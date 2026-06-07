@@ -67,8 +67,8 @@ export const siteConfig = {
 
   // Analytics (self-hosted Umami). Leave blank to disable — nothing loads.
   analytics: {
-    umamiSrc: "",        // e.g. "https://analytics.example.com/script.js"
-    umamiWebsiteId: "",  // this site's Umami website ID (UUID)
+    umamiSrc: "https://stats.onehousedecor.com/script.js",
+    umamiWebsiteId: "f649271f-babd-4b64-8352-6affb39135b5",
   },
 
   pages: {
